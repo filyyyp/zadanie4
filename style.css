@@ -1,17 +1,57 @@
 #gallery{
-    display: block;
-    border-style: solid;
-    border-width: 3px;
-    padding: 0;
-    float: left;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+.p-15 {
+   padding: 15px !important;
+}
+
+.valign{
+    display: flex;
+    align-items: center;
+}
+
+.border{
+    border: 20px solid transparent;
+    border-image: url(images/brush-border.png) 20 stretch;
+}
+
+.popisfotky{
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 10px 0;
 }
 
 .thumbnail{
-    height: 100px;
-    margin: 0;
-        vertical-align: top;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    z-index: 5;
 
-    }
+
+}
+
+.imagebackground{
+
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.col-4{
+    width: 33.333333%;
+    float: left;
+    box-sizing: border-box;
+    padding: 0 15px;
+
+}
 
 .lightbox {
     /** Default lightbox to hidden */

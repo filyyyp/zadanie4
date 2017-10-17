@@ -5,16 +5,31 @@
     var lightboxImage = document.getElementById("imglight");
     var nextButton = document.getElementById("next");
     var previousButton = document.getElementById("previous");
+    var playstopButton = document.getElementById("play");
     var nadpisLightbox = document.getElementById("lightboxNadpisId");
-
+    var popisLightbox = document.getElementById("lightboxPopis");
+    var row,casovacSlide;
 
     for(i=0;i<images.photos.length;i++)
     {
+
+        if(i%3===0)
+        {
+            console.log("bs");
+            row = document.createElement("div");
+            row.setAttribute("class","row valign");
+        }
+
+        var div = document.createElement("div");
+        div.setAttribute("class","col-4 p-15");
         var img = document.createElement("img");
         img.src=images.photos[i].icon;
-        img.setAttribute("class","thumbnail");
+        img.setAttribute("class","thumbnail border");
         img.setAttribute("onclick","lightboxfun("+i+")");
-        gallery.appendChild(img);
+
+        div.appendChild(img);
+        row.appendChild(div);
+        gallery.appendChild(row);
     }
 
 
@@ -26,24 +41,26 @@ function lightboxfun(id) {
         lightbox.style.display="block";
         lightboxImage.src=images.photos[id].src;
         lightboxImage.setAttribute("id",id);
-        nadpisLightbox.innerHTML=images.photos[id].title;
+        setProperties();
         check();
 }
 
 function closeLightbox() {
     lightbox.style.display="none";
+    clearTimeout(casovacSlide);
+    playstopButton.value="play";
 
 }
 
 function nextImage() {
     lightboxImage.src=images.photos[(++(lightboxImage.id))].src;
-    nadpisLightbox.innerHTML=images.photos[lightboxImage.id].title;
+    setProperties();
     check();
 }
 
 function previousImage() {
     lightboxImage.src=images.photos[(--(lightboxImage.id))].src;
-    nadpisLightbox.innerHTML=images.photos[lightboxImage.id].title;
+    setProperties();
     check();
     console.log(lightboxImage.id);
 }
@@ -62,58 +79,33 @@ function check() {
         nextButton.disabled=true;
 }
 
-function slideShow() {
+function playstop() {
+        if(playstopButton.value==="play")
+        {
+            playstopButton.value="stop";
+            slideShow();
+        }
+        else{
+            playstopButton.value="play";
+            clearTimeout(casovacSlide);
+        }
+
 }
-/*
-var img = document.createElement("img");
-        img.src=images.photos[i].icon;
-        //img.onclick=otvor(img.src);
-        img.setAttribute("onclick","otvor('"+img.src.toString()+"')");
-        gallery.appendChild(img);
 
-
-
-
-
-        var link = document.createElement("a");
-        link.setAttribute("href","#img"+i);
-        var img = document.createElement("img");
-        img.src=images.photos[i].icon;
-        img.setAttribute("class","thumbnail");
-        link.appendChild(img);
-        gallery.appendChild(link);
-
-        var link2 =document.createElement("div");
-        //link2.setAttribute("href","#_");
-        link2.setAttribute("class","lightbox");
-        link2.setAttribute("id","img"+i);
-        var img2 = document.createElement("img");
-        img2.src=images.photos[i].src;
-        link2.appendChild(img2);
-        gallery.appendChild(link2);
-
-
-
-
-
-
- for(i=0;i<images.photos.length;i++)
+function slideShow() {
+    dlzka=images.photos.length;
+    dlzka--;
+    if(parseInt(lightboxImage.id)<dlzka)
     {
-        var link = document.createElement("a");
-        link.setAttribute("href","#img"+i);
-        var img = document.createElement("img");
-        img.src=images.photos[i].icon;
-        img.setAttribute("class","thumbnail");
-        link.appendChild(img);
-        gallery.appendChild(link);
-
-        var link2 =document.createElement("a");
-        link2.setAttribute("href","#_");
-        link2.setAttribute("class","lightbox");
-        link2.setAttribute("id","img"+i);
-        var img2 = document.createElement("img");
-        img2.src=images.photos[i].src;
-        link2.appendChild(img2);
-        gallery.appendChild(link2);
+        nextImage();
+        casovacSlide=setTimeout(slideShow,2000);
     }
- */
+    else
+        playstopButton.value="play";
+}
+
+function setProperties() {
+    nadpisLightbox.innerHTML=images.photos[lightboxImage.id].title;
+    popisLightbox.innerHTML=images.photos[lightboxImage.id].description;
+
+}
